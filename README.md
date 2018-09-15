@@ -1,6 +1,7 @@
 # nonzero_ext
 
 ## Traits to represent generic nonzero integer types
+[![Build Status](https://travis-ci.com/antifuchs/nonzero_ext.svg?branch=master)](https://travis-ci.com/antifuchs/nonzero_ext) [![Docs](https://docs.rs/nonzero_ext/badge.svg)](https://docs.rs/nonzero_ext)
 
 Rust ships with non-zero integer types now, which let programmers
 promise (memory-savingly!) that a number can never be zero. That's
@@ -16,14 +17,12 @@ non-zero integer types, minus any elements that were zero in the
 original. You can write that with the standard library quite
 easily for concrete types:
 
-``` rust
-## use core::num::NonZeroU8;
-fn only_nonzeros(v: Vec<u8>) -> Vec<NonZeroU8> {
-  let out: Vec<NonZeroU8> = v
-       .into_iter()
-       .filter_map(|n| NonZeroU8::new(n))
-       .collect();
-  out
+```rust
+fn only_nonzeros(v: Vec<u8>) -> Vec<NonZeroU8>
+{
+    v.into_iter()
+        .filter_map(|n| NonZeroU8::new(n))
+        .collect::<Vec<NonZeroU8>>()
 }
 let expected: Vec<NonZeroU8> = vec![NonZeroU8::new(20).unwrap(), NonZeroU8::new(5).unwrap()];
 assert_eq!(expected, only_nonzeros(vec![0, 20, 5]));
@@ -33,16 +32,14 @@ But what if you want to allow this function to work with any
 integer type that has a corresponding non-zero type? This crate
 can help:
 
-``` rust
+```rust
 fn only_nonzeros<I>(v: Vec<I>) -> Vec<I::NonZero>
 where
-  I: Sized + NonZeroAble
+    I: Sized + NonZeroAble,
 {
-  let out: Vec<I::NonZero> = v
-       .into_iter()
-       .filter_map(|n| n.as_nonzero())
-       .collect();
-  out
+    v.into_iter()
+        .filter_map(|n| n.as_nonzero())
+        .collect::<Vec<I::NonZero>>()
 }
 
 // It works for `u8`:

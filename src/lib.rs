@@ -1,4 +1,5 @@
 //! # Traits to represent generic nonzero integer types
+//! [![Build Status](https://travis-ci.com/antifuchs/nonzero_ext.svg?branch=master)](https://travis-ci.com/antifuchs/nonzero_ext) [![Docs](https://docs.rs/nonzero_ext/badge.svg)](https://docs.rs/nonzero_ext)
 //!
 //! Rust ships with non-zero integer types now, which let programmers
 //! promise (memory-savingly!) that a number can never be zero. That's
@@ -14,7 +15,7 @@
 //! original. You can write that with the standard library quite
 //! easily for concrete types:
 //!
-//! ``` rust
+//! ```rust
 //! # use std::num::NonZeroU8;
 //! fn only_nonzeros(v: Vec<u8>) -> Vec<NonZeroU8>
 //! {
@@ -30,7 +31,7 @@
 //! integer type that has a corresponding non-zero type? This crate
 //! can help:
 //!
-//! ``` rust
+//! ```rust
 //! # use std::num::{NonZeroU8, NonZeroU32};
 //! # use nonzero_ext::{NonZeroAble};
 //! fn only_nonzeros<I>(v: Vec<I>) -> Vec<I::NonZero>
