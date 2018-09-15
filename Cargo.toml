@@ -1,5 +1,4 @@
 [package]
-edition = '2018'
 name = "nonzero_ext"
 version = "0.0.2-dev"
 authors = ["Andreas Fuchs <asf@boinkor.net>"]

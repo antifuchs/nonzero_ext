@@ -15,13 +15,12 @@
 //! easily for concrete types:
 //!
 //! ``` rust
-//! # use core::num::NonZeroU8;
-//! fn only_nonzeros(v: Vec<u8>) -> Vec<NonZeroU8> {
-//!   let out: Vec<NonZeroU8> = v
-//!        .into_iter()
-//!        .filter_map(|n| NonZeroU8::new(n))
-//!        .collect();
-//!   out
+//! # use std::num::NonZeroU8;
+//! fn only_nonzeros(v: Vec<u8>) -> Vec<NonZeroU8>
+//! {
+//!     v.into_iter()
+//!         .filter_map(|n| NonZeroU8::new(n))
+//!         .collect::<Vec<NonZeroU8>>()
 //! }
 //! let expected: Vec<NonZeroU8> = vec![NonZeroU8::new(20).unwrap(), NonZeroU8::new(5).unwrap()];
 //! assert_eq!(expected, only_nonzeros(vec![0, 20, 5]));
@@ -32,17 +31,15 @@
 //! can help:
 //!
 //! ``` rust
-//! # use core::num::{NonZeroU8, NonZeroU32};
+//! # use std::num::{NonZeroU8, NonZeroU32};
 //! # use nonzero_ext::{NonZeroAble};
 //! fn only_nonzeros<I>(v: Vec<I>) -> Vec<I::NonZero>
 //! where
-//!   I: Sized + NonZeroAble
+//!     I: Sized + NonZeroAble,
 //! {
-//!   let out: Vec<I::NonZero> = v
-//!        .into_iter()
-//!        .filter_map(|n| n.as_nonzero())
-//!        .collect();
-//!   out
+//!     v.into_iter()
+//!         .filter_map(|n| n.as_nonzero())
+//!         .collect::<Vec<I::NonZero>>()
 //! }
 //!
 //! // It works for `u8`:
@@ -57,8 +54,8 @@
 //! ```
 //!
 
-use core::num::NonZeroUsize;
-use core::num::{NonZeroU128, NonZeroU16, NonZeroU32, NonZeroU64, NonZeroU8};
+use std::num::NonZeroUsize;
+use std::num::{NonZeroU128, NonZeroU16, NonZeroU32, NonZeroU64, NonZeroU8};
 
 macro_rules! impl_nonzeroness {
     ($trait_name:ident, $nonzero_type:ty, $wrapped:ty) => {
@@ -108,7 +105,7 @@ pub trait NonZeroAble {
     /// The concrete non-zero type represented by an implementation of
     /// this trait. For example, for `u8`'s implementation, it is
     /// `NonZeroU8`.
-    type NonZero: crate::NonZero;
+    type NonZero: NonZero;
 
     /// Converts the integer to its non-zero equivalent.
     ///
@@ -124,7 +121,7 @@ pub trait NonZeroAble {
     /// ### Converting a non-zero value
     /// ``` rust
     /// # use nonzero_ext::NonZeroAble;
-    /// # use core::num::NonZeroUsize;
+    /// # use std::num::NonZeroUsize;
     /// let n: usize = 20;
     /// let non0n: NonZeroUsize = n.as_nonzero().expect("should result in a converted value");
     /// assert_eq!(non0n.get(), 20);
