@@ -1,0 +1,27 @@
+[package]
+edition = '2018'
+name = "nonzero_ext"
+version = "0.0.1-dev"
+authors = ["Andreas Fuchs <asf@boinkor.net>"]
+license = "MIT"
+repository = "https://github.com/antifuchs/nonzero_ext"
+readme = "README.md"
+description = "Extensions and additional traits for non-zero integer types"
+documentation = "https://docs.rs/nonzero_ext"
+
+[badges]
+travis-ci = { repository = "antifuchs/nonzero_ext", branch = "master" }
+maintenance = { status = "passively-maintained" }
+
+[package.metadata.release]
+sign-commit = false
+upload-doc = false
+pre-release-commit-message = "Release {{version}} 🎉🎉"
+pro-release-commit-message = "Start next development iteration {{version}}"
+tag-message = "Release {{prefix}}{{version}}"
+dev-version-ext = "dev"
+tag-prefix = "v"
+
+[dependencies]
+failure = "0.1.1"
+failure_derive = "0.1.1"
