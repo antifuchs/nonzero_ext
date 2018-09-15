@@ -27,7 +27,7 @@ fn only_nonzeros(v: Vec<u8>) -> Vec<NonZeroU8> {
 }
 let expected: Vec<NonZeroU8> = vec![NonZeroU8::new(20).unwrap(), NonZeroU8::new(5).unwrap()];
 assert_eq!(expected, only_nonzeros(vec![0, 20, 5]));
-```rust
+```
 
 But what if you want to allow this function to work with any
 integer type that has a corresponding non-zero type? This crate
