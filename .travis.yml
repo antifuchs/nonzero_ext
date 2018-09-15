@@ -30,7 +30,7 @@ matrix:
       env:
         - RUN_BENCH=true
         - RUN_TEST=false
-    - rust: nightly
+    - rust: stable
       env:
         - RUN_CLIPPY=true
         - RUN_TEST=false
