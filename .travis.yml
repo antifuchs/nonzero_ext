@@ -30,15 +30,13 @@ matrix:
       env:
         - RUN_BENCH=true
         - RUN_TEST=false
-    - rust: stable
+    - &clippy_build
+      rust: stable
       env:
         - RUN_CLIPPY=true
         - RUN_TEST=false
   allow_failures:
-    - rust: stable
-      env:
-        - RUN_CLIPPY=true
-        - RUN_TEST=false
+    - *clippy_build
 
 before_script:
   - bash -c 'if [[ "$RUN_RUSTFMT" == "true" ]]; then
