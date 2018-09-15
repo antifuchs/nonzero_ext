@@ -57,4 +57,4 @@ assert_eq!(expected_u32, only_nonzeros(input_u32));
 ```
 
 
-License: MIT
+License: Apache 2.0
