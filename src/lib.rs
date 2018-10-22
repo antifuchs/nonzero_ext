@@ -74,6 +74,7 @@ macro_rules! impl_nonzeroness {
             type Primitive = $wrapped;
 
             #[inline]
+            #[allow(clippy::new_ret_no_self)]
             fn new(n: $wrapped) -> Option<Self> {
                 Self::new(n)
             }
