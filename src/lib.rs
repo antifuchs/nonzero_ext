@@ -11,7 +11,7 @@
 //! Creating and handling constant literals is neat, but the standard
 //! library (and the rust parser at the moment) have no affordances to
 //! easily create values of `num::NonZeroU*` types from constant
-//! literals. THis crate ships a `nonzero!` macro that lets you write
+//! literals. This crate ships a `nonzero!` macro that lets you write
 //! `nonzero!(20u32)` instead of the cumbersome
 //! `NonZeroU32::new(20).unwrap()`.
 //!
