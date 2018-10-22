@@ -202,7 +202,7 @@ impl_nonzeroable!(NonZeroAble, NonZeroUsize, usize);
 ///
 #[macro_export]
 macro_rules! nonzero {
-    ($n:expr) => {
+    ($n:expr) => {{
         let helper = || {
             #[allow(unknown_lints, eq_op)]
             let _ = [(); ($n as usize) - 1];
@@ -210,5 +210,5 @@ macro_rules! nonzero {
             unsafe { $n.as_nonzero_unchecked() }
         };
         helper()
-    };
+    }};
 }
