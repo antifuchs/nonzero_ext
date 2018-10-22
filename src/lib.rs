@@ -159,3 +159,45 @@ impl_nonzeroable!(NonZeroAble, NonZeroU32, u32);
 impl_nonzeroable!(NonZeroAble, NonZeroU64, u64);
 impl_nonzeroable!(NonZeroAble, NonZeroU128, u128);
 impl_nonzeroable!(NonZeroAble, NonZeroUsize, usize);
+
+/// Create non-zero values from constant literals easily.
+///
+/// This macro issues a compile-time check and, if it passes, creates
+/// the corresponding non-zero numeric value from the given
+/// constant. Since the type of constant literals needs to be exactly
+/// known, `nonzero!` requires that you annotate the constant with the
+/// type, so instead of `nonzero!(20)` you must write `nonzero!(20 as
+/// u16)`.
+/// # Examples
+/// ```
+/// # #[macro_use]
+/// # extern crate nonzero_ext;
+/// # fn main() {
+/// nonzero!(20usize);  // => NonZeroUsize
+/// nonzero!(20u32);    // => NonZeroU32
+/// nonzero!(20 as u8); // => NonZeroU8
+/// # }
+/// ```
+///
+/// or:
+///
+/// ``` # compile_fail
+/// # #[macro_use]
+/// # extern crate nonzero_ext;
+/// # fn main() {
+/// nonzero!(0u8);
+/// # }
+/// ```
+///
+#[macro_export]
+macro_rules! nonzero {
+    ($n:expr) => {
+        let helper = || {
+            #[allow(unknown_lints, eq_op)]
+            let _ = [(); ($n as usize) - 1];
+            use $crate::NonZeroAble;
+            unsafe { $n.as_nonzero_unchecked() }
+        };
+        helper()
+    };
+}
