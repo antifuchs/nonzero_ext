@@ -5,17 +5,27 @@
 
 Rust ships with non-zero integer types now, which let programmers
 promise (memory-savingly!) that a number can never be zero. That's
-great, but sadly the standard library has no traits you can use to
-represent all the non-zero integer types.
+great, but sadly the standard library has not got a whole lot of
+tools to help you use them ergonomically.
 
-## Examples
+### A macro for non-zero constant literals
 
-Where this lack of traits in the standard library becomes
-problematic is if you want to write a function that takes a vector
-of integers, and that returns a vector of the corresponding
-non-zero integer types, minus any elements that were zero in the
-original. You can write that with the standard library quite
-easily for concrete types:
+Creating and handling constant literals is neat, but the standard
+library (and the rust parser at the moment) have no affordances to
+easily create values of `num::NonZeroU*` types from constant
+literals. THis crate ships a `nonzero!` macro that lets you write
+`nonzero!(20u32)` instead of the cumbersome
+`NonZeroU32::new(20).unwrap()`.
+
+### Traits for generic non-zeroness
+
+The stdlib `num::NonZeroU*` types do not implement any common
+traits (and neither do their zeroable equivalents).  Where this
+lack of traits in the standard library becomes problematic is if
+you want to write a function that takes a vector of integers, and
+that returns a vector of the corresponding non-zero integer types,
+minus any elements that were zero in the original. You can write
+that with the standard library quite easily for concrete types:
 
 ```rust
 fn only_nonzeros(v: Vec<u8>) -> Vec<NonZeroU8>
