@@ -128,6 +128,13 @@ pub trait NonZeroAble {
     /// assert_eq!(non0n.get(), 20);
     /// ```
     fn as_nonzero(self) -> Option<Self::NonZero>;
+
+    /// Converts the integer to its non-zero equivalent without
+    /// checking for zeroness.
+    ///
+    /// This corresponds to the `new_unchecked` function on the
+    /// corresponding NonZero type.
+    unsafe fn as_nonzero_unchecked(self) -> Self::NonZero;
 }
 
 macro_rules! impl_nonzeroable {
@@ -137,6 +144,10 @@ macro_rules! impl_nonzeroable {
 
             fn as_nonzero(self) -> Option<$nonzero_type> {
                 Self::NonZero::new(self)
+            }
+
+            unsafe fn as_nonzero_unchecked(self) -> $nonzero_type {
+                Self::NonZero::new_unchecked(self)
             }
         }
     };
