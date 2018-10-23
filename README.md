@@ -13,9 +13,10 @@ tools to help you use them ergonomically.
 Creating and handling constant literals is neat, but the standard
 library (and the rust parser at the moment) have no affordances to
 easily create values of `num::NonZeroU*` types from constant
-literals. THis crate ships a `nonzero!` macro that lets you write
-`nonzero!(20u32)` instead of the cumbersome
-`NonZeroU32::new(20).unwrap()`.
+literals. This crate ships a `nonzero!` macro that lets you write
+`nonzero!(20u32)`, which checks at compile time that the constant
+being converted is non-zero, instead of the cumbersome (and
+runtime-checked!)  `NonZeroU32::new(20).unwrap()`.
 
 ### Traits for generic non-zeroness
 
@@ -34,7 +35,7 @@ fn only_nonzeros(v: Vec<u8>) -> Vec<NonZeroU8>
         .filter_map(|n| NonZeroU8::new(n))
         .collect::<Vec<NonZeroU8>>()
 }
-let expected: Vec<NonZeroU8> = vec![NonZeroU8::new(20).unwrap(), NonZeroU8::new(5).unwrap()];
+let expected: Vec<NonZeroU8> = vec![nonzero!(20u8), nonzero!(5u8)];
 assert_eq!(expected, only_nonzeros(vec![0, 20, 5]));
 ```
 
@@ -54,12 +55,12 @@ where
 
 // It works for `u8`:
 let input_u8: Vec<u8> = vec![0, 20, 5];
-let expected_u8: Vec<NonZeroU8> = vec![NonZeroU8::new(20).unwrap(), NonZeroU8::new(5).unwrap()];
+let expected_u8: Vec<NonZeroU8> = vec![nonzero!(20u8), nonzero!(5u8)];
 assert_eq!(expected_u8, only_nonzeros(input_u8));
 
 // And it works for `u32`:
 let input_u32: Vec<u32> = vec![0, 20, 5];
-let expected_u32: Vec<NonZeroU32> = vec![NonZeroU32::new(20).unwrap(), NonZeroU32::new(5).unwrap()];
+let expected_u32: Vec<NonZeroU32> = vec![nonzero!(20u32), nonzero!(5u32)];
 assert_eq!(expected_u32, only_nonzeros(input_u32));
 ```
 
