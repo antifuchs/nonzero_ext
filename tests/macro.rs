@@ -1,4 +1,5 @@
-#[macro_use]extern crate nonzero_ext;
+#[macro_use]
+extern crate nonzero_ext;
 
 #[test]
 fn works_in_exprs() {
