@@ -21,8 +21,24 @@ tag-message = "Release {{prefix}}{{version}}"
 dev-version-ext = "dev"
 tag-prefix = "v"
 
+[package.metadata.template_ci]
+test_commandline = 'cargo test --all --features "compiletest_rs $TRAVIS_RUST_VERSION"'
+cache = "false"
+
+[features]
+default = []
+stable = ["compiletest_rs/stable"]
+beta = ["compiletest_rs/stable"]
+nightly = ["compiletest_rs"]
 
 [package.metadata.template_ci.clippy]
 allow_failure = false
 
 [dependencies]
+
+[dev-dependencies]
+
+[dependencies.compiletest_rs]
+version = "0.3.14"
+optional = true
+features = ["tmp"]
