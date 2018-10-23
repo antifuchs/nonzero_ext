@@ -23,6 +23,7 @@ tag-prefix = "v"
 
 [package.metadata.template_ci]
 test_commandline = 'cargo test --all --features "compiletest_rs $TRAVIS_RUST_VERSION"'
+cache = "false"
 
 [features]
 default = []
