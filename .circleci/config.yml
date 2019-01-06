@@ -31,9 +31,11 @@ jobs:
     parameters:
       version:
         type: executor
+      version_name:
+        type: string
     executor: << parameters.version >>
     environment:
-      CI_RUST_VERSION: << parameters.version >>
+      CI_RUST_VERSION: << parameters.version_name >>
     steps:
       - checkout
       - cargo_test
@@ -91,6 +93,7 @@ workflows:
       - test:
           name: test-stable
           version: stable
+          version_name: stable
           filters: {
   "branches": {
     "ignore": [
@@ -106,6 +109,7 @@ workflows:
       - test:
           name: test-nightly
           version: nightly
+          version_name: nightly
           filters: {
   "branches": {
     "ignore": [
