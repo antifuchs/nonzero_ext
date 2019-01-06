@@ -18,6 +18,9 @@ fn run_mode(mode: &'static str) {
 
 #[test]
 fn compile_test() {
+    // Don't run compile-fail tests under nightly: Error messages are unstable.
+    #[cfg(feature = "stable")]
     run_mode("compile-fail");
+
     run_mode("run-pass");
 }

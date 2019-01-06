@@ -9,7 +9,7 @@ description = "Extensions and additional traits for non-zero integer types"
 documentation = "https://docs.rs/nonzero_ext"
 
 [badges]
-travis-ci = { repository = "antifuchs/nonzero_ext", branch = "master" }
+circle-ci = { repository = "antifuchs/nonzero_ext", branch = "master" }
 maintenance = { status = "passively-maintained" }
 
 [package.metadata.release]
@@ -22,7 +22,7 @@ dev-version-ext = "dev"
 tag-prefix = "v"
 
 [package.metadata.template_ci]
-test_commandline = 'cargo test --all --features "compiletest_rs $TRAVIS_RUST_VERSION"'
+test_commandline = 'cargo test --all --features "compiletest_rs $CI_RUST_VERSION"'
 cache = "false"
 
 [features]
@@ -39,6 +39,6 @@ allow_failure = false
 [dev-dependencies]
 
 [dependencies.compiletest_rs]
-version = "0.3.14"
+version = "0.3.18"
 optional = true
 features = ["tmp"]
