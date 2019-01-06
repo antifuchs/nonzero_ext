@@ -39,6 +39,6 @@ allow_failure = false
 [dev-dependencies]
 
 [dependencies.compiletest_rs]
-version = "0.3.14"
+version = "0.3.18"
 optional = true
 features = ["tmp"]
