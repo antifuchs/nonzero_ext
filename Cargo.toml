@@ -1,6 +1,6 @@
 [package]
 name = "nonzero_ext"
-version = "0.1.4-dev"
+version = "0.1.4"
 authors = ["Andreas Fuchs <asf@boinkor.net>"]
 license = "Apache-2.0"
 repository = "https://github.com/antifuchs/nonzero_ext"
