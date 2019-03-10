@@ -1,7 +1,37 @@
 #![cfg(feature = "compiletest_rs")]
 
 extern crate compiletest_rs as compiletest;
+use std::fs::{read_dir, remove_file};
 use std::path::PathBuf;
+
+fn clean_rlibs(config: &compiletest_rs::Config) {
+    if config.target_rustcflags.is_some() {
+        for directory in config
+            .target_rustcflags
+            .as_ref()
+            .unwrap()
+            .split_whitespace()
+        {
+            if let Ok(mut entries) = read_dir(directory) {
+                while let Some(Ok(entry)) = entries.next() {
+                    let f = entry.file_name().clone().into_string().unwrap();
+                    if f.ends_with(".rmeta") {
+                        let prefix = &f[..f.len() - 5];
+                        let _ = remove_file(entry.path());
+                        if let Ok(mut entries) = read_dir(directory) {
+                            while let Some(Ok(entry)) = entries.next() {
+                                let f = entry.file_name().clone().into_string().unwrap();
+                                if f.starts_with(prefix) && !f.ends_with(".rmeta") {
+                                    let _ = remove_file(entry.path());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 fn run_mode(mode: &'static str) {
     let mut config = compiletest::Config::default().tempdir();
@@ -12,6 +42,7 @@ fn run_mode(mode: &'static str) {
     // config.target_rustcflags = Some("-L target/debug -L target/debug/deps".to_string());
     config.link_deps();
     config.clean_rmeta();
+    clean_rlibs(&config);
 
     compiletest::run_tests(&config);
 }
