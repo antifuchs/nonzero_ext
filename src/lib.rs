@@ -72,8 +72,22 @@
 //! ```
 //!
 
-use std::num::NonZeroUsize;
-use std::num::{NonZeroU128, NonZeroU16, NonZeroU32, NonZeroU64, NonZeroU8};
+#![cfg_attr(not(feature = "std"), no_std)]
+
+mod lib {
+    mod core {
+        #[cfg(feature = "std")]
+        pub use std::*;
+
+        #[cfg(not(feature = "std"))]
+        pub use core::*;
+    }
+    pub use self::core::num::{
+        NonZeroU128, NonZeroU16, NonZeroU32, NonZeroU64, NonZeroU8, NonZeroUsize,
+    };
+}
+
+use self::lib::*;
 
 macro_rules! impl_nonzeroness {
     ($trait_name:ident, $nonzero_type:ty, $wrapped:ty) => {

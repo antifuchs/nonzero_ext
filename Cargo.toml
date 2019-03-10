@@ -26,7 +26,8 @@ test_commandline = 'cargo test --all --features "compiletest_rs $CI_RUST_VERSION
 cache = "false"
 
 [features]
-default = []
+default = ["std"]
+std = []
 stable = ["compiletest_rs/stable"]
 beta = ["compiletest_rs/stable"]
 nightly = ["compiletest_rs"]
