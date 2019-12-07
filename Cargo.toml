@@ -40,6 +40,6 @@ allow_failure = false
 [dev-dependencies]
 
 [dependencies.compiletest_rs]
-version = "0.3.19"
+version = "0.4.0"
 optional = true
 features = ["tmp"]
