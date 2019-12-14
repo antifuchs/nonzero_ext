@@ -21,10 +21,6 @@ tag-message = "Release {{prefix}}{{version}}"
 dev-version-ext = "dev"
 tag-prefix = "v"
 
-[package.metadata.template_ci]
-test_commandline = 'cargo test --all --features "compiletest_rs $CI_RUST_VERSION"'
-cache = "false"
-
 [features]
 default = ["std"]
 std = []
