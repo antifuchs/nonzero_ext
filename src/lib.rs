@@ -83,6 +83,9 @@ mod lib {
         pub use core::*;
     }
     pub use self::core::num::{
+        NonZeroI128, NonZeroI16, NonZeroI32, NonZeroI64, NonZeroI8, NonZeroIsize,
+    };
+    pub use self::core::num::{
         NonZeroU128, NonZeroU16, NonZeroU32, NonZeroU64, NonZeroU8, NonZeroUsize,
     };
 }
@@ -131,6 +134,13 @@ impl_nonzeroness!(NonZero, NonZeroU32, u32);
 impl_nonzeroness!(NonZero, NonZeroU64, u64);
 impl_nonzeroness!(NonZero, NonZeroU128, u128);
 impl_nonzeroness!(NonZero, NonZeroUsize, usize);
+
+impl_nonzeroness!(NonZero, NonZeroI8, i8);
+impl_nonzeroness!(NonZero, NonZeroI16, i16);
+impl_nonzeroness!(NonZero, NonZeroI32, i32);
+impl_nonzeroness!(NonZero, NonZeroI64, i64);
+impl_nonzeroness!(NonZero, NonZeroI128, i128);
+impl_nonzeroness!(NonZero, NonZeroIsize, isize);
 
 /// A trait identifying integral types that have a non-zeroable
 /// equivalent.
@@ -191,6 +201,13 @@ impl_nonzeroable!(NonZeroAble, NonZeroU32, u32);
 impl_nonzeroable!(NonZeroAble, NonZeroU64, u64);
 impl_nonzeroable!(NonZeroAble, NonZeroU128, u128);
 impl_nonzeroable!(NonZeroAble, NonZeroUsize, usize);
+
+impl_nonzeroable!(NonZeroAble, NonZeroI8, i8);
+impl_nonzeroable!(NonZeroAble, NonZeroI16, i16);
+impl_nonzeroable!(NonZeroAble, NonZeroI32, i32);
+impl_nonzeroable!(NonZeroAble, NonZeroI64, i64);
+impl_nonzeroable!(NonZeroAble, NonZeroI128, i128);
+impl_nonzeroable!(NonZeroAble, NonZeroIsize, isize);
 
 /// Create non-zero values from constant literals easily.
 ///
