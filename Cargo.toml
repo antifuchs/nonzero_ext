@@ -28,9 +28,6 @@ cache = "false"
 [features]
 default = ["std"]
 std = []
-stable = ["compiletest_rs/stable"]
-beta = ["compiletest_rs/stable"]
-nightly = ["compiletest_rs"]
 
 [package.metadata.template_ci.clippy]
 allow_failure = false
@@ -38,8 +35,5 @@ allow_failure = false
 [dependencies]
 
 [dev-dependencies]
+trybuild = "1.0"
 
-[dependencies.compiletest_rs]
-version = "0.4.0"
-optional = true
-features = ["tmp"]
