@@ -73,6 +73,9 @@
 //!
 
 #![cfg_attr(not(feature = "std"), no_std)]
+#![allow(clippy::unknown_clippy_lints)]
+// Unfortunately necessary, otherwise features aren't supported in doctests:
+#![allow(clippy::needless_doctest_main)]
 
 mod lib {
     mod core {
@@ -176,6 +179,9 @@ pub trait NonZeroAble {
     ///
     /// This corresponds to the `new_unchecked` function on the
     /// corresponding NonZero type.
+    ///
+    /// # Safety
+    /// The value must not be zero.
     unsafe fn as_nonzero_unchecked(self) -> Self::NonZero;
 }
 
