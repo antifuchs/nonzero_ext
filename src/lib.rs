@@ -73,6 +73,9 @@
 //!
 
 #![cfg_attr(not(feature = "std"), no_std)]
+#![allow(clippy::unknown_clippy_lints)]
+// Unfortunately necessary, otherwise features aren't supported in doctests:
+#![allow(clippy::needless_doctest_main)]
 
 mod lib {
     mod core {
@@ -82,6 +85,9 @@ mod lib {
         #[cfg(not(feature = "std"))]
         pub use core::*;
     }
+    pub use self::core::num::{
+        NonZeroI128, NonZeroI16, NonZeroI32, NonZeroI64, NonZeroI8, NonZeroIsize,
+    };
     pub use self::core::num::{
         NonZeroU128, NonZeroU16, NonZeroU32, NonZeroU64, NonZeroU8, NonZeroUsize,
     };
@@ -132,6 +138,13 @@ impl_nonzeroness!(NonZero, NonZeroU64, u64);
 impl_nonzeroness!(NonZero, NonZeroU128, u128);
 impl_nonzeroness!(NonZero, NonZeroUsize, usize);
 
+impl_nonzeroness!(NonZero, NonZeroI8, i8);
+impl_nonzeroness!(NonZero, NonZeroI16, i16);
+impl_nonzeroness!(NonZero, NonZeroI32, i32);
+impl_nonzeroness!(NonZero, NonZeroI64, i64);
+impl_nonzeroness!(NonZero, NonZeroI128, i128);
+impl_nonzeroness!(NonZero, NonZeroIsize, isize);
+
 /// A trait identifying integral types that have a non-zeroable
 /// equivalent.
 pub trait NonZeroAble {
@@ -166,6 +179,9 @@ pub trait NonZeroAble {
     ///
     /// This corresponds to the `new_unchecked` function on the
     /// corresponding NonZero type.
+    ///
+    /// # Safety
+    /// The value must not be zero.
     unsafe fn as_nonzero_unchecked(self) -> Self::NonZero;
 }
 
@@ -191,6 +207,13 @@ impl_nonzeroable!(NonZeroAble, NonZeroU32, u32);
 impl_nonzeroable!(NonZeroAble, NonZeroU64, u64);
 impl_nonzeroable!(NonZeroAble, NonZeroU128, u128);
 impl_nonzeroable!(NonZeroAble, NonZeroUsize, usize);
+
+impl_nonzeroable!(NonZeroAble, NonZeroI8, i8);
+impl_nonzeroable!(NonZeroAble, NonZeroI16, i16);
+impl_nonzeroable!(NonZeroAble, NonZeroI32, i32);
+impl_nonzeroable!(NonZeroAble, NonZeroI64, i64);
+impl_nonzeroable!(NonZeroAble, NonZeroI128, i128);
+impl_nonzeroable!(NonZeroAble, NonZeroIsize, isize);
 
 /// Create non-zero values from constant literals easily.
 ///
@@ -226,7 +249,7 @@ macro_rules! nonzero {
     ($n:expr) => {{
         let helper = || {
             #[allow(unknown_lints, eq_op)]
-            let _ = [(); ($n as usize) - 1];
+            let _ = [(); ($n.count_ones() as usize) - 1];
             use $crate::NonZeroAble;
             unsafe { $n.as_nonzero_unchecked() }
         };
