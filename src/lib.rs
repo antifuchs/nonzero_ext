@@ -243,7 +243,7 @@ macro_rules! nonzero {
     ($n:expr) => {{
         let helper = || {
             #[allow(unknown_lints, eq_op)]
-            let _ = [(); ($n as usize) - 1];
+            let _ = [(); ($n.count_ones() as usize) - 1];
             use $crate::NonZeroAble;
             unsafe { $n.as_nonzero_unchecked() }
         };
