@@ -201,6 +201,9 @@ macro_rules! impl_nonzeroable {
             }
         }
         impl literals::NonZeroLiteral<$nonzeroable_type> {
+            /// Converts the wrapped value to its non-zero equivalent.
+            /// # Safety
+            /// The wrapped value must be non-zero.
             pub const unsafe fn into_nonzero(self) -> $nonzero_type {
                 <$nonzero_type>::new_unchecked(self.0)
             }
