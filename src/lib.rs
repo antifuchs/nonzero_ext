@@ -95,6 +95,8 @@ mod lib {
 
 use self::lib::*;
 
+pub mod literals;
+
 macro_rules! impl_nonzeroness {
     ($trait_name:ident, $nonzero_type:ty, $wrapped:ty) => {
         impl $trait_name for $nonzero_type {
@@ -198,6 +200,11 @@ macro_rules! impl_nonzeroable {
                 Self::NonZero::new_unchecked(self)
             }
         }
+        impl literals::NonZeroLiteral<$nonzeroable_type> {
+            pub const unsafe fn into_nonzero(self) -> $nonzero_type {
+                <$nonzero_type>::new_unchecked(self.0)
+            }
+        }
     };
 }
 
@@ -223,6 +230,11 @@ impl_nonzeroable!(NonZeroAble, NonZeroIsize, isize);
 /// known, `nonzero!` requires that you annotate the constant with the
 /// type, so instead of `nonzero!(20)` you must write `nonzero!(20 as
 /// u16)`.
+///
+/// # Const expressions
+///
+/// This macro can be used in const expressions.
+///
 /// # Examples
 /// ```
 /// # #[macro_use]
@@ -247,12 +259,9 @@ impl_nonzeroable!(NonZeroAble, NonZeroIsize, isize);
 #[macro_export]
 macro_rules! nonzero {
     ($n:expr) => {{
-        let helper = || {
-            #[allow(unknown_lints, eq_op)]
-            let _ = [(); ($n.count_ones() as usize) - 1];
-            use $crate::NonZeroAble;
-            unsafe { $n.as_nonzero_unchecked() }
-        };
-        helper()
+        #[allow(unknown_lints, eq_op)]
+        let _ = [(); ($n.count_ones() as usize) - 1];
+        let lit = $crate::literals::NonZeroLiteral($n);
+        unsafe { lit.into_nonzero() }
     }};
 }
