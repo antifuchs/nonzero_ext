@@ -11,6 +11,10 @@
 * This [CHANGELOG](./CHANGELOG.md) file. I have tried to backfill the major changes since initial release, but there
  are bound to be gaps.
 
+### Changed
+* The `as_nonzero` and `as_nonzero_unchecked` methods on the `NonZeroAble` trait are now named `into_nonzero` and
+ `into_nonzero_unchecked`, respectively. The old methods still exist, but are deprecated.
+
 ## [v0.1.3] - 2019-03-10
 
 ### Added
