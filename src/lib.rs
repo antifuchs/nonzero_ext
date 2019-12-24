@@ -155,6 +155,7 @@ pub trait NonZeroAble {
     /// `NonZeroU8`.
     type NonZero: NonZero;
 
+    //noinspection RsSelfConvention
     /// Converts the integer to its non-zero equivalent.
     ///
     /// # Examples
@@ -174,8 +175,36 @@ pub trait NonZeroAble {
     /// let non0n: NonZeroUsize = n.as_nonzero().expect("should result in a converted value");
     /// assert_eq!(non0n.get(), 20);
     /// ```
-    fn as_nonzero(self) -> Option<Self::NonZero>;
+    #[deprecated(since = "0.2.0", note = "Renamed to `into_nonzero`")]
+    fn as_nonzero(self) -> Option<Self::NonZero>
+    where
+        Self: Sized,
+    {
+        self.into_nonzero()
+    }
 
+    /// Converts the integer to its non-zero equivalent.
+    ///
+    /// # Examples
+    ///
+    /// ### Trying to convert zero
+    /// ``` rust
+    /// # use nonzero_ext::NonZeroAble;
+    /// let n: u16 = 0;
+    /// assert_eq!(n.into_nonzero(), None);
+    /// ```
+    ///
+    /// ### Converting a non-zero value
+    /// ``` rust
+    /// # use nonzero_ext::NonZeroAble;
+    /// # use std::num::NonZeroUsize;
+    /// let n: usize = 20;
+    /// let non0n: NonZeroUsize = n.into_nonzero().expect("should result in a converted value");
+    /// assert_eq!(non0n.get(), 20);
+    /// ```
+    fn into_nonzero(self) -> Option<Self::NonZero>;
+
+    //noinspection RsSelfConvention
     /// Converts the integer to its non-zero equivalent without
     /// checking for zeroness.
     ///
@@ -184,7 +213,23 @@ pub trait NonZeroAble {
     ///
     /// # Safety
     /// The value must not be zero.
-    unsafe fn as_nonzero_unchecked(self) -> Self::NonZero;
+    #[deprecated(since = "0.2.0", note = "Renamed to `into_nonzero_unchecked`")]
+    unsafe fn as_nonzero_unchecked(self) -> Self::NonZero
+    where
+        Self: Sized,
+    {
+        self.into_nonzero_unchecked()
+    }
+
+    /// Converts the integer to its non-zero equivalent without
+    /// checking for zeroness.
+    ///
+    /// This corresponds to the `new_unchecked` function on the
+    /// corresponding NonZero type.
+    ///
+    /// # Safety
+    /// The value must not be zero.    
+    unsafe fn into_nonzero_unchecked(self) -> Self::NonZero;
 }
 
 macro_rules! impl_nonzeroable {
@@ -192,11 +237,11 @@ macro_rules! impl_nonzeroable {
         impl $trait_name for $nonzeroable_type {
             type NonZero = $nonzero_type;
 
-            fn as_nonzero(self) -> Option<$nonzero_type> {
+            fn into_nonzero(self) -> Option<$nonzero_type> {
                 Self::NonZero::new(self)
             }
 
-            unsafe fn as_nonzero_unchecked(self) -> $nonzero_type {
+            unsafe fn into_nonzero_unchecked(self) -> $nonzero_type {
                 Self::NonZero::new_unchecked(self)
             }
         }
