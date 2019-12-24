@@ -12,15 +12,6 @@ documentation = "https://docs.rs/nonzero_ext"
 circle-ci = { repository = "antifuchs/nonzero_ext", branch = "master" }
 maintenance = { status = "passively-maintained" }
 
-[package.metadata.release]
-sign-commit = false
-upload-doc = false
-pre-release-commit-message = "Release {{version}} 🎉🎉"
-pro-release-commit-message = "Start next development iteration {{version}}"
-tag-message = "Release {{prefix}}{{version}}"
-dev-version-ext = "dev"
-tag-prefix = "v"
-
 [features]
 default = ["std"]
 std = []
