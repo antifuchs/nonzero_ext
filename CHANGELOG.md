@@ -4,6 +4,8 @@
 
 ## [Unreleased] - ReleaseDate
 
+## [0.2.0] - 2019-12-23
+
 ### Added
 * Support for `NonZeroI*` types - now `nonzero_ext` should include support for all non-zero integer types that the
  standard library exports.
