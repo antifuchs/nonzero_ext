@@ -16,6 +16,11 @@ maintenance = { status = "passively-maintained" }
 default = ["std"]
 std = []
 
+[package.metadata.template_ci]
+# We don't care about nightly with its regular/unstable changes to
+# diagnostics, but beta could potentially break compatibility.
+versions = ["stable", "beta"]
+
 [package.metadata.template_ci.clippy]
 allow_failure = false
 
@@ -23,4 +28,4 @@ allow_failure = false
 
 [dev-dependencies]
 trybuild = "1.0"
-
+rustversion = "1.0.2"
