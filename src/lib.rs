@@ -228,7 +228,7 @@ pub trait NonZeroAble {
     /// corresponding NonZero type.
     ///
     /// # Safety
-    /// The value must not be zero.    
+    /// The value must not be zero.
     unsafe fn into_nonzero_unchecked(self) -> Self::NonZero;
 }
 
@@ -251,6 +251,14 @@ macro_rules! impl_nonzeroable {
             /// The wrapped value must be non-zero.
             pub const unsafe fn into_nonzero(self) -> $nonzero_type {
                 <$nonzero_type>::new_unchecked(self.0)
+            }
+
+            /// Returns the number of "set" bits in a value.
+            ///
+            /// This is assumed to correspond to the "zero-ness" of
+            /// the value: Zero set bits means the value is zero.
+            pub const fn count_ones(self) -> usize {
+                <$nonzeroable_type>::count_ones(self.0) as usize
             }
         }
     };
@@ -308,7 +316,7 @@ impl_nonzeroable!(NonZeroAble, NonZeroIsize, isize);
 macro_rules! nonzero {
     ($n:expr) => {{
         #[allow(unknown_lints, eq_op)]
-        let _ = [(); ($n.count_ones() as usize) - 1];
+        let _ = [(); $crate::literals::NonZeroLiteral($n).count_ones() - 1];
         let lit = $crate::literals::NonZeroLiteral($n);
         unsafe { lit.into_nonzero() }
     }};
