@@ -233,7 +233,7 @@ pub trait NonZeroAble {
 }
 
 macro_rules! impl_nonzeroable {
-    ($trait_name:ident, $nonzero_type: ty, $nonzeroable_type:ty) => {
+    ($trait_name:ident, $nonzero_type: ty, $nonzeroable_type:ty, $counter:ident, $count:expr) => {
         impl $trait_name for $nonzeroable_type {
             type NonZero = $nonzero_type;
 
@@ -257,10 +257,20 @@ macro_rules! impl_nonzeroable {
             ///
             /// This is assumed to correspond to the "zero-ness" of
             /// the value: Zero set bits means the value is zero.
-            pub const fn count_ones(self) -> usize {
-                <$nonzeroable_type>::count_ones(self.0) as usize
+            pub const fn count_ones($counter) -> usize {
+                $count
             }
         }
+    };
+
+    ($trait_name:ident, $nonzero_type: ty, $nonzeroable_type:ty) => {
+        impl_nonzeroable!(
+            $trait_name,
+            $nonzero_type,
+            $nonzeroable_type,
+            self,
+            <$nonzeroable_type>::count_ones(self.0) as usize
+        );
     };
 }
 
