@@ -96,7 +96,7 @@ mod lib {
 use self::lib::*;
 
 pub mod literals;
-pub mod types;
+pub mod time;
 
 #[macro_export]
 macro_rules! impl_nonzeroness {

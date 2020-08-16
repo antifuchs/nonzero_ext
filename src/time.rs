@@ -1,6 +1,12 @@
-use crate::{impl_nonzeroable, impl_nonzeroness, NonZero, NonZeroAble};
-use std::time::Duration;
+//! Non-zero time intervals.
 
+use crate::{impl_nonzeroable, impl_nonzeroness, NonZero, NonZeroAble};
+use std::{ops::Add, time::Duration};
+
+/// A non-zero duration.
+///
+/// A `NonZeroDuration` represents a [`Duration`] that can not be the
+/// "zero" duration, that is, zero nanoseconds long.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct NonZeroDuration(Duration);
 
@@ -20,6 +26,18 @@ impl NonZeroDuration {
     /// Returns the wrapped Duration.
     pub const fn get(self) -> Duration {
         self.0
+    }
+}
+
+impl Add<Duration> for NonZeroDuration {
+    type Output = NonZeroDuration;
+
+    fn add(self, rhs: Duration) -> Self::Output {
+        let res = self.0 + rhs;
+
+        // Duration can not be negative, so an nz duration + a
+        // potentially-zero duration are always a non-zero duration.
+        NonZeroDuration(res)
     }
 }
 
