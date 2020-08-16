@@ -268,7 +268,7 @@ macro_rules! impl_nonzeroable {
             }
 
             /// True if the passed value is non-zero.
-            pub const fn is_nonzero($counter) -> bool {
+            pub const fn is_nonzero(&$counter) -> bool {
                 $count
             }
         }

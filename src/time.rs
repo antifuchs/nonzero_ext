@@ -19,6 +19,11 @@ impl NonZeroDuration {
         Some(NonZeroDuration(d))
     }
 
+    /// Creates a new NonZeroDuation without checking for non-zeroness
+    ///
+    /// # Safety
+    /// Callers must check that the passed duration is not zero
+    /// nanoseconds long.
     pub const unsafe fn new_unchecked(d: Duration) -> Self {
         NonZeroDuration(d)
     }
