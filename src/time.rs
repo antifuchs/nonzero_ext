@@ -47,7 +47,7 @@ impl_nonzeroable!(
     NonZeroDuration,
     Duration,
     self,
-    self.0.as_nanos().count_ones() as usize
+    self.0.as_nanos() != 0
 );
 
 #[cfg(test)]

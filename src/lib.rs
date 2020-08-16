@@ -256,11 +256,8 @@ macro_rules! impl_nonzeroable {
                 <$nonzero_type>::new_unchecked(self.0)
             }
 
-            /// Returns the number of "set" bits in a value.
-            ///
-            /// This is assumed to correspond to the "zero-ness" of
-            /// the value: Zero set bits means the value is zero.
-            pub const fn count_ones($counter) -> usize {
+            /// True if the passed value is non-zero.
+            pub const fn is_nonzero($counter) -> bool {
                 $count
             }
         }
@@ -272,7 +269,7 @@ macro_rules! impl_nonzeroable {
             $nonzero_type,
             $nonzeroable_type,
             self,
-            <$nonzeroable_type>::count_ones(self.0) as usize
+            self.0 != 0
         );
     };
 }
@@ -329,7 +326,7 @@ impl_nonzeroable!(NonZeroAble, NonZeroIsize, isize);
 macro_rules! nonzero {
     ($n:expr) => {{
         #[allow(unknown_lints, eq_op)]
-        let _ = [(); $crate::literals::NonZeroLiteral($n).count_ones() - 1];
+        let _ = [(); ($crate::literals::NonZeroLiteral($n).is_nonzero() as usize) - 1];
         let lit = $crate::literals::NonZeroLiteral($n);
         unsafe { lit.into_nonzero() }
     }};
