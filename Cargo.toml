@@ -13,8 +13,9 @@ circle-ci = { repository = "antifuchs/nonzero_ext", branch = "master" }
 maintenance = { status = "passively-maintained" }
 
 [features]
-default = ["std"]
+default = ["std", "time"]
 std = []
+time = []
 
 [package.metadata.template_ci]
 # We don't care about nightly with its regular/unstable changes to

@@ -71,6 +71,15 @@
 //! # }
 //! ```
 //!
+//! ## Features selectable at compile time
+//!
+//! * `std` (default): If deselected, uses `core` instead of `std`, making
+//!   this crate compatible with no_std builds.
+//!
+//! * `time` (default): If selected (it's on by default), provides a
+//!   [`time::NonZeroDuration`] type, and allows converting to it from
+//!   [`Duration`][std::time::Duration] literals.
+//!
 
 #![cfg_attr(not(feature = "std"), no_std)]
 #![allow(clippy::unknown_clippy_lints)]
@@ -96,6 +105,8 @@ mod lib {
 use self::lib::*;
 
 pub mod literals;
+
+#[cfg(feature = "time")]
 pub mod time;
 
 #[macro_export]
