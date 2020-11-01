@@ -1,3 +1,11 @@
+// TODO: parallel running of trybuild tests doesn't work.
+// Unfortunately, we can't have a single test for successful
+// compilation of various macro invocations. This is prevented by
+// https://github.com/dtolnay/trybuild/issues/58 - trybuild confuses
+// about which test case should be successful or not. Instead, just
+// run the t.pass and t.compile_fail calls in the same test case - we
+// lose parallelism but at least it works.
+
 #[rustversion::any(nightly)]
 #[test]
 fn compile_test_prerelease() {
