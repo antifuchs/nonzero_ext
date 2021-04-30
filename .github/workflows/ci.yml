@@ -70,14 +70,3 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         args: -- -D warnings
-
-  cargo_bench:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    needs: test
-    steps:
-      - uses: actions/checkout@v2.3.4
-      - name: "cargo bench"
-        uses: actions-rs/cargo@v1
-        with:
-          command: bench
