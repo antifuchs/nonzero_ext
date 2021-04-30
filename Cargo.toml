@@ -9,20 +9,11 @@ description = "Extensions and additional traits for non-zero integer types"
 documentation = "https://docs.rs/nonzero_ext"
 
 [badges]
-circle-ci = { repository = "antifuchs/nonzero_ext", branch = "master" }
 maintenance = { status = "passively-maintained" }
 
 [features]
 default = ["std"]
 std = []
-
-[package.metadata.template_ci]
-# We don't care about nightly with its regular/unstable changes to
-# diagnostics, but beta could potentially break compatibility.
-versions = ["stable", "beta"]
-
-[package.metadata.template_ci.clippy]
-allow_failure = false
 
 [dependencies]
 

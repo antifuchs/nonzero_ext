@@ -1,7 +1,7 @@
 # nonzero_ext
 
 ## Traits to represent generic nonzero integer types
-[![Build Status](https://travis-ci.com/antifuchs/nonzero_ext.svg?branch=master)](https://travis-ci.com/antifuchs/nonzero_ext) [![Docs](https://docs.rs/nonzero_ext/badge.svg)](https://docs.rs/nonzero_ext)
+![Build status](https://github.com/antifuchs/nonzero_ext/actions/workflows/ci_push.yml/badge.svg?branch=master) [![Docs](https://docs.rs/nonzero_ext/badge.svg)](https://docs.rs/nonzero_ext)
 
 Rust ships with non-zero integer types now, which let programmers
 promise (memory-savingly!) that a number can never be zero. That's
