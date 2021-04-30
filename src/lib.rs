@@ -73,7 +73,7 @@
 //!
 
 #![cfg_attr(not(feature = "std"), no_std)]
-#![allow(clippy::unknown_clippy_lints)]
+#![allow(unknown_lints)]
 // Unfortunately necessary, otherwise features aren't supported in doctests:
 #![allow(clippy::needless_doctest_main)]
 
@@ -176,6 +176,7 @@ pub trait NonZeroAble {
     /// assert_eq!(non0n.get(), 20);
     /// ```
     #[deprecated(since = "0.2.0", note = "Renamed to `into_nonzero`")]
+    #[allow(clippy::wrong_self_convention)]
     fn as_nonzero(self) -> Option<Self::NonZero>
     where
         Self: Sized,
@@ -214,6 +215,7 @@ pub trait NonZeroAble {
     /// # Safety
     /// The value must not be zero.
     #[deprecated(since = "0.2.0", note = "Renamed to `into_nonzero_unchecked`")]
+    #[allow(clippy::wrong_self_convention)]
     unsafe fn as_nonzero_unchecked(self) -> Self::NonZero
     where
         Self: Sized,
@@ -228,7 +230,7 @@ pub trait NonZeroAble {
     /// corresponding NonZero type.
     ///
     /// # Safety
-    /// The value must not be zero.    
+    /// The value must not be zero.
     unsafe fn into_nonzero_unchecked(self) -> Self::NonZero;
 }
 
