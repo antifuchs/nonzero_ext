@@ -9,7 +9,6 @@ description = "Extensions and additional traits for non-zero integer types"
 documentation = "https://docs.rs/nonzero_ext"
 
 [badges]
-circle-ci = { repository = "antifuchs/nonzero_ext", branch = "master" }
 maintenance = { status = "passively-maintained" }
 
 [features]
