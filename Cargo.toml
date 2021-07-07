@@ -18,5 +18,5 @@ std = []
 [dependencies]
 
 [dev-dependencies]
-trybuild = "1.0"
+trybuild = "1.0.42"
 rustversion = "1.0.2"
