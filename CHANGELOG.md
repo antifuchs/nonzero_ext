@@ -4,6 +4,9 @@
 
 ## [Unreleased] - ReleaseDate
 
+### Added
+* Support for defining not-obviously-integral non-zero types, mostly `Duration`.
+
 ## [0.2.0] - 2019-12-23
 
 ### Added

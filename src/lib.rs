@@ -71,6 +71,15 @@
 //! # }
 //! ```
 //!
+//! ## Features selectable at compile time
+//!
+//! * `std` (default): If deselected, uses `core` instead of `std`, making
+//!   this crate compatible with no_std builds.
+//!
+//! * `time` (default): If selected (it's on by default), provides a
+//!   [`time::NonZeroDuration`] type, and allows converting to it from
+//!   [`Duration`][std::time::Duration] literals.
+//!
 
 #![cfg_attr(not(feature = "std"), no_std)]
 #![allow(unknown_lints)]
@@ -97,6 +106,10 @@ use self::lib::*;
 
 pub mod literals;
 
+#[cfg(feature = "time")]
+pub mod time;
+
+#[macro_export]
 macro_rules! impl_nonzeroness {
     ($trait_name:ident, $nonzero_type:ty, $wrapped:ty) => {
         impl $trait_name for $nonzero_type {
@@ -234,8 +247,9 @@ pub trait NonZeroAble {
     unsafe fn into_nonzero_unchecked(self) -> Self::NonZero;
 }
 
+#[macro_export]
 macro_rules! impl_nonzeroable {
-    ($trait_name:ident, $nonzero_type: ty, $nonzeroable_type:ty) => {
+    ($trait_name:ident, $nonzero_type: ty, $nonzeroable_type:ty, $counter:ident, $count:expr) => {
         impl $trait_name for $nonzeroable_type {
             type NonZero = $nonzero_type;
 
@@ -247,14 +261,29 @@ macro_rules! impl_nonzeroable {
                 Self::NonZero::new_unchecked(self)
             }
         }
-        impl literals::NonZeroLiteral<$nonzeroable_type> {
+        impl crate::literals::NonZeroLiteral<$nonzeroable_type> {
             /// Converts the wrapped value to its non-zero equivalent.
             /// # Safety
             /// The wrapped value must be non-zero.
             pub const unsafe fn into_nonzero(self) -> $nonzero_type {
                 <$nonzero_type>::new_unchecked(self.0)
             }
+
+            /// True if the passed value is non-zero.
+            pub const fn is_nonzero(&$counter) -> bool {
+                $count
+            }
         }
+    };
+
+    ($trait_name:ident, $nonzero_type: ty, $nonzeroable_type:ty) => {
+        impl_nonzeroable!(
+            $trait_name,
+            $nonzero_type,
+            $nonzeroable_type,
+            self,
+            self.0 != 0
+        );
     };
 }
 
@@ -310,7 +339,7 @@ impl_nonzeroable!(NonZeroAble, NonZeroIsize, isize);
 macro_rules! nonzero {
     ($n:expr) => {{
         #[allow(unknown_lints, eq_op)]
-        let _ = [(); ($n.count_ones() as usize) - 1];
+        let _ = [(); ($crate::literals::NonZeroLiteral($n).is_nonzero() as usize) - 1];
         let lit = $crate::literals::NonZeroLiteral($n);
         unsafe { lit.into_nonzero() }
     }};

@@ -12,8 +12,9 @@ documentation = "https://docs.rs/nonzero_ext"
 maintenance = { status = "passively-maintained" }
 
 [features]
-default = ["std"]
+default = ["std", "time"]
 std = []
+time = []
 
 [dependencies]
 

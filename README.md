@@ -1,3 +1,5 @@
+[![Build Status](https://circleci.com/gh/antifuchs/nonzero_ext/tree/master.svg?style=shield)](https://circleci.com/gh/antifuchs/nonzero_ext/tree/master)
+
 # nonzero_ext
 
 ## Traits to represent generic nonzero integer types
@@ -63,6 +65,15 @@ let input_u32: Vec<u32> = vec![0, 20, 5];
 let expected_u32: Vec<NonZeroU32> = vec![nonzero!(20u32), nonzero!(5u32)];
 assert_eq!(expected_u32, only_nonzeros(input_u32));
 ```
+
+### Features selectable at compile time
+
+* `std` (default): If deselected, uses `core` instead of `std`, making
+  this crate compatible with no_std builds.
+
+* `time` (default): If selected (it's on by default), provides a
+  [`time::NonZeroDuration`] type, and allows converting to it from
+  [`Duration`][std::time::Duration] literals.
 
 
 License: Apache-2.0
