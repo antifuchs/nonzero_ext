@@ -4,6 +4,16 @@
 
 ## [Unreleased] - ReleaseDate
 
+### Changed
+* The `nonzero!` macro now enforces that its arguments are integer
+  literals. Any other non-zeroable types (even if they implement
+  `nonzero_ext::NonZeroAble`) can not be accepted. This fixes
+  [#17](https://github.com/antifuchs/nonzero_ext/issues/17).
+
+### Contributors
+* [`@joshlf`](https://github.com/joshlf)
+* [`@ComputerDruid`](https://github.com/ComputerDruid)
+
 ## [0.2.0] - 2019-12-23
 
 ### Added
