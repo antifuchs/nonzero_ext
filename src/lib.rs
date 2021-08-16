@@ -255,6 +255,7 @@ macro_rules! impl_nonzeroable {
                 <$nonzero_type>::new_unchecked(self.0)
             }
         }
+        impl literals::sealed::IntegerLiteral for $nonzeroable_type {}
     };
 }
 
@@ -280,6 +281,17 @@ impl_nonzeroable!(NonZeroAble, NonZeroIsize, isize);
 /// known, `nonzero!` requires that you annotate the constant with the
 /// type, so instead of `nonzero!(20)` you must write `nonzero!(20 as
 /// u16)`.
+///
+/// Note that this macro only works with [integer
+/// literals](https://doc.rust-lang.org/reference/tokens.html#integer-literals),
+/// it isn't possible to use the `nonzero!` macro with types other
+/// than the built-in ones.
+///
+/// # Determining the output type
+///
+/// Use a suffix on the input value to determine the output type:
+/// `nonzero!(1_usize)` will return a [`NonZeroUsize`], and
+/// `nonzero!(-1_i32)` will return a [`NonZeroI32`].
 ///
 /// # Const expressions
 ///
