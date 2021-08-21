@@ -4,6 +4,8 @@
 
 ## [Unreleased] - ReleaseDate
 
+## [0.3.0] - 2021-08-21
+
 ### Changed
 * The `nonzero!` macro now enforces that its arguments are integer
   literals. Any other non-zeroable types (even if they implement
