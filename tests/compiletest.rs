@@ -32,9 +32,16 @@ fn compile_fail_test_stable_since_1_48() {
     t.compile_fail("tests/compile-fail_1.48/*.rs");
 }
 
-#[rustversion::all(since(1.54.0), not(nightly))]
+#[rustversion::all(since(1.54.0), before(1.56.0))]
 #[test]
 fn compile_fail_test_since_1_54() {
     let t = trybuild::TestCases::new();
     t.compile_fail("tests/compile-fail_1.54/*.rs");
+}
+
+#[rustversion::all(since(1.56.0), not(nightly))]
+#[test]
+fn compile_fail_test_since_1_54() {
+    let t = trybuild::TestCases::new();
+    t.compile_fail("tests/compile-fail_1.56/*.rs");
 }
