@@ -11,7 +11,7 @@ fn compile_fail_test_prerelease() {
     t.compile_fail("tests/compile-fail_nightly/*.rs");
 }
 
-#[rustversion::before(1.46)] // nightly+beta has changed the format of the macro backtrace hint.
+#[rustversion::before(1.46)]
 #[test]
 fn compile_fail_test_until_1_45() {
     let t = trybuild::TestCases::new();
@@ -39,9 +39,16 @@ fn compile_fail_test_since_1_54() {
     t.compile_fail("tests/compile-fail_1.54/*.rs");
 }
 
-#[rustversion::all(since(1.56.0), not(nightly))]
+#[rustversion::all(since(1.56.0), before(1.62.0))]
 #[test]
 fn compile_fail_test_since_1_54() {
     let t = trybuild::TestCases::new();
     t.compile_fail("tests/compile-fail_1.56/*.rs");
+}
+
+#[rustversion::all(since(1.62.0), not(nightly))]
+#[test]
+fn compile_fail_test_since_1_62() {
+    let t = trybuild::TestCases::new();
+    t.compile_fail("tests/compile-fail_1.62/*.rs");
 }
